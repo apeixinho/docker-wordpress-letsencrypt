@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-   db:
+   wordpress_db:
      container_name: ${CONTAINER_DB_NAME}
      image: mariadb:latest
      restart: on-failure:10
@@ -15,7 +15,7 @@ services:
 
    wordpress:
      depends_on:
-       - db
+       - wordpress_db
      container_name: ${CONTAINER_WP_NAME}
      image: wordpress:latest
      restart: on-failure:10
@@ -32,6 +32,7 @@ services:
        VIRTUAL_HOST: ${DOMAINS}
        LETSENCRYPT_HOST: ${DOMAINS}
        LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+       LETSENCRYPT_TEST: "true"
      logging:
        options:
          max-size: ${LOGGING_OPTIONS_MAX_SIZE:-200k}
