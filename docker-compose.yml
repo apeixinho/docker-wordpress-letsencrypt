@@ -1,10 +1,10 @@
-version: '3'
+version: "3.7"
 
 services:
    db:
      container_name: ${CONTAINER_DB_NAME}
      image: mariadb:latest
-     restart: unless-stopped
+     restart: on-failure:10
      volumes:
         - ${DB_PATH}:/var/lib/mysql
      environment:
@@ -18,7 +18,7 @@ services:
        - db
      container_name: ${CONTAINER_WP_NAME}
      image: wordpress:latest
-     restart: unless-stopped
+     restart: on-failure:10
      volumes:
        - ${WP_CORE}:/var/www/html
        - ${WP_CONTENT}:/var/www/html/wp-content
@@ -49,3 +49,4 @@ networks:
     default:
        external:
          name: ${NETWORK}
+
